@@ -1,5 +1,6 @@
-package epi;
+package epi.linked_list;
 
+import epi.ListNode;
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTestHandler;
 import epi.test_framework.TestTimer;
@@ -8,8 +9,8 @@ public class DeleteNodeFromList {
 
   // Assumes nodeToDelete is not tail.
   public static void deletionFromList(ListNode<Integer> nodeToDelete) {
-    // Implement this placeholder.
-    return;
+      nodeToDelete.data = nodeToDelete.next.data;
+      nodeToDelete.next = nodeToDelete.next.next;
   }
 
   @EpiTest(testfile = "delete_node_from_list.tsv")

@@ -1,5 +1,6 @@
-package epi;
+package epi.linked_list;
 
+import epi.ListNode;
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTestHandler;
 import epi.test_framework.TestFailureException;
@@ -12,8 +13,27 @@ import java.util.List;
 public class PivotList {
 
   public static ListNode<Integer> listPivoting(ListNode<Integer> l, int x) {
-    // Implement this placeholder.
-    return null;
+      ListNode<Integer> larger = new ListNode<>(0, null), ltail = larger,
+      dum = new ListNode<>(0, l), itr = dum;
+      while (itr.next != null) {
+          if (itr.next.data < x) {
+              itr = itr.next;
+          } else if (itr.next.data == x) {
+              ListNode<Integer> target = itr.next;
+              itr.next = target.next;
+              target.next = larger.next;
+              larger.next = target;
+              if (ltail == larger) ltail = target;
+          } else {
+              ListNode<Integer> target = itr.next;
+              itr.next = target.next;
+              ltail.next = target;
+              ltail = target;
+              target.next = null;
+          }
+      }
+      itr.next = larger.next;
+      return dum.next;
   }
 
   public static List<Integer> linkedToList(ListNode<Integer> l) {

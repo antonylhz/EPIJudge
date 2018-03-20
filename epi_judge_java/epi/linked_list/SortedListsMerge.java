@@ -1,5 +1,6 @@
-package epi;
+package epi.linked_list;
 
+import epi.ListNode;
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTestHandler;
 

@@ -1,5 +1,6 @@
-package epi;
+package epi.linked_list;
 
+import epi.ListNode;
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTestHandler;
 import epi.test_framework.TestFailureException;
@@ -8,8 +9,20 @@ import epi.test_framework.TestTimer;
 public class IsListCyclic {
 
   public static ListNode<Integer> hasCycle(ListNode<Integer> head) {
-    // Implement this placeholder.
-    return null;
+      ListNode<Integer> fast = head, slow = head;
+      do {
+          if (fast == null || fast.next == null || fast.next.next == null) {
+              return null;
+          }
+          fast = fast.next.next;
+          slow = slow.next;
+      } while (fast != slow);
+      slow = head;
+      while (slow != fast) {
+          slow = slow.next;
+          fast = fast.next;
+      }
+      return fast;
   }
 
   @EpiTest(testfile = "is_list_cyclic.tsv")
