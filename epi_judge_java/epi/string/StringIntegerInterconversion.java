@@ -1,4 +1,4 @@
-package epi;
+package epi.string;
 
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTestHandler;
@@ -7,13 +7,28 @@ import epi.test_framework.TestFailureException;
 public class StringIntegerInterconversion {
 
   public static String intToString(int x) {
-    // Implement this placeholder.
-    return "";
+      StringBuilder sb = new StringBuilder();
+      boolean neg = x < 0;
+      long l = neg ? -1L * x : x;
+      while (l > 0) {
+          sb.append(l % 10);
+          l /= 10;
+      }
+      if (neg) {
+          sb.append("-");
+      }
+      return sb.length() == 0 ? "0" : sb.reverse().toString();
   }
 
   public static int stringToInt(String s) {
-    // Implement this placeholder.
-    return 0;
+      if (s == null || s.length() == 0) return 0;
+      boolean neg = s.charAt(0) == '-';
+      int res = 0;
+      for (int i = neg ? 1 : 0; i < s.length(); i++) {
+          res *= 10;
+          res += s.charAt(i) - '0';
+      }
+      return neg ? -res : res;
   }
 
   @EpiTest(testfile = "string_integer_interconversion.tsv")
