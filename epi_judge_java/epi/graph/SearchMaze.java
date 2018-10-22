@@ -1,12 +1,11 @@
-package epi;
+package epi.graph;
 
 import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTestHandler;
 import epi.test_framework.TestFailureException;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class SearchMaze {
   @EpiUserType(ctorParams = {int.class, int.class})
@@ -39,10 +38,38 @@ public class SearchMaze {
 
   public static enum Color { WHITE, BLACK }
 
+  private static final int[][] MOVES = new int[][] {
+          new int[]{1, 0},
+          new int[]{-1, 0},
+          new int[]{0, 1},
+          new int[]{0, -1}
+  };
+
   public static List<Coordinate> searchMaze(List<List<Color>> maze,
                                             Coordinate s, Coordinate e) {
-    // Implement this placeholder.
-    return null;
+      LinkedList<Coordinate> path = new LinkedList<>();
+      backtrack(maze, s, e, path);
+      return path;
+  }
+
+  private static boolean backtrack(List<List<Color>> maze, Coordinate cur, Coordinate target, LinkedList<Coordinate> path) {
+      maze.get(cur.x).set(cur.y, Color.BLACK);
+      path.add(cur);
+      if (cur.equals(target)) {
+          return true;
+      }
+      for (int[] move : MOVES) {
+          Coordinate next = new Coordinate(cur.x + move[0], cur.y + move[1]);
+          if (next.x >= 0 && next.x < maze.size() &&
+                next.y >= 0&& next.y < maze.get(next.x).size() &&
+                  maze.get(next.x).get(next.y) == Color.WHITE) {
+              if (backtrack(maze, next, target, path)) {
+                  return true;
+              }
+          }
+      }
+      path.removeLast();
+      return false;
   }
 
   public static boolean pathElementIsFeasible(List<List<Integer>> maze,
